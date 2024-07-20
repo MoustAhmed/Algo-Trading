@@ -7,8 +7,7 @@ This project aims to create an algorithmic trading bot using Python. The bot wil
 ### Step 1: Simulated Chart
 
 In the first step, we created a live updating chart using random numbers to simulate data. This helps us understand how to visualize real-time data and provides a foundation for integrating actual market data.
-![image](https://github.com/user-attachments/assets/e4ed7f1c-0672-45d1-b36c-28ef948bdd45)
-
+![image](https://github.com/user-attachments/assets/1a2a2b2a-6518-4449-9c32-c8ee97686383)
 
 ### Step 2: Real-Time Chart Data
 
