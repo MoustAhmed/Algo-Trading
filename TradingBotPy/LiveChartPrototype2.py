@@ -10,15 +10,19 @@ app = dash.Dash(__name__)
 
 # Layout of the Dash app
 app.layout = html.Div([
-    html.H1("Live Updating Chart", style={'text-align': 'center'}),
-    dcc.Graph(id='live-update-graph'),
+    html.H1("Live Updating Chart", style={'text-align': 'center', 'color': 'white'}),
+    dcc.Graph(
+        id='live-update-graph',
+        style={'height': '80vh', 'border': '2px solid white'},
+        config={'scrollZoom': True}  # Enable scroll wheel zooming
+    ),
     dcc.Interval(
         id='interval-component',
         interval=1*1000,  # Update every second
         n_intervals=0
     ),
-    html.Div("Real-time data visualization using Dash", style={'text-align': 'center', 'margin-top': '20px'})
-])
+    html.Div("Real-time data visualization using Dash", style={'text-align': 'center', 'margin-top': '20px', 'color': 'white'})
+], style={'backgroundColor': '#1a1a1a', 'padding': '20px'})  # Set background color of the entire page
 
 # Initialize data lists
 x_data = []
@@ -31,7 +35,8 @@ def update_graph_live(n):
     global x_data, y_data
     
     # Generate new data
-    x_data.append(datetime.datetime.now())
+    current_time = datetime.datetime.now()
+    x_data.append(current_time)
     y_data.append(random.random())
     
     # Keep only the last 10 seconds of data
@@ -43,8 +48,8 @@ def update_graph_live(n):
     fig = go.Figure(
         data=[go.Scatter(x=list(x_data), y=list(y_data),
                          mode='lines+markers', 
-                         line=dict(color='royalblue', width=2),
-                         marker=dict(color='red', size=8))]
+                         line=dict(color='#1f77b4', width=2),  # Blue line
+                         marker=dict(color='#ff7f0e', size=8))]  # Orange markers
     )
     
     # Update the layout
@@ -52,20 +57,27 @@ def update_graph_live(n):
         title='Live Data Stream',
         xaxis_title='Time',
         yaxis_title='Value',
+        paper_bgcolor='#1a1a1a',  # Dark background for the paper
+        plot_bgcolor='#1a1a1a',  # Dark background for the plot area
+        font=dict(color='white'),  # White text
         xaxis=dict(
             range=[min(x_data), max(x_data)],
             showgrid=True,
             gridwidth=1,
-            gridcolor='lightgrey'
+            gridcolor='gray',
+            fixedrange=False  # Allow panning but keep the range fixed on updates
         ),
         yaxis=dict(
             range=[0, 1],
             showgrid=True,
             gridwidth=1,
-            gridcolor='lightgrey'
+            gridcolor='gray',
+            fixedrange=False  # Allow panning but keep the range fixed on updates
         ),
-        plot_bgcolor='white',
-        uirevision='constant'  # Prevent resetting the zoom on update
+        title_font=dict(size=24),
+        margin=dict(l=40, r=40, t=40, b=40),  # Margin around the plot
+        uirevision='constant',  # Prevent resetting the zoom on update
+        dragmode='pan',  # Enable panning
     )
     
     return fig
